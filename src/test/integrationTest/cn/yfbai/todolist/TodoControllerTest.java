@@ -3,6 +3,8 @@ package cn.yfbai.todolist;
 import cn.yfbai.todolist.model.TodoItem;
 import cn.yfbai.todolist.repository.TodoRepository;
 import com.google.gson.GsonBuilder;
+import org.flywaydb.core.Flyway;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +35,17 @@ public class TodoControllerTest {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Before
+    public void init() {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(dataSource);
+        flyway.clean();
+        flyway.migrate();
+    }
+
     @Test
     public void test_save_item() {
         ResponseEntity<TodoItem> resp = restTemplate.postForEntity("/api/todos", new TodoItem(1, "aaa", true), TodoItem.class);
@@ -49,7 +63,6 @@ public class TodoControllerTest {
                 new TodoItem(1, "item 1", false),
                 new TodoItem(2, "item 2", true)
         );
-        todoRepository.deleteAll();
         todoRepository.saveAll(existList);
 
         ResponseEntity<List> response = restTemplate.getForEntity("/api/todos", List.class);
@@ -60,7 +73,6 @@ public class TodoControllerTest {
 
     @Test
     public void test_update_item() {
-        todoRepository.deleteAll();
         TodoItem oldItem = todoRepository.save(new TodoItem(1, "item 1", true));
 
         oldItem.setChecked(false);
@@ -75,7 +87,6 @@ public class TodoControllerTest {
 
     @Test
     public void test_delete_item() {
-        todoRepository.deleteAll();
         TodoItem item = todoRepository.save(new TodoItem(1, "item 1", true));
 
         restTemplate.delete("/api/todos/{1}", item.getId());

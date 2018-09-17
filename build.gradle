@@ -31,6 +31,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('com.google.code.gson:gson:2.8.5')
     compile('mysql:mysql-connector-java')
-    runtime('org.flywaydb:flyway-core:5.0.7')
+    testCompile('org.flywaydb:flyway-core:5.0.7')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
