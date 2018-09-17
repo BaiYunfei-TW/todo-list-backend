@@ -1,8 +1,6 @@
 package cn.yfbai.todolist.repository;
 
 import cn.yfbai.todolist.model.TodoItem;
-import com.sun.tools.javac.comp.Todo;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;

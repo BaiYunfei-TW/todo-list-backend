@@ -5,7 +5,6 @@ import cn.yfbai.todolist.model.TodoItem;
 import cn.yfbai.todolist.repository.TodoListRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.tools.javac.comp.Todo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
